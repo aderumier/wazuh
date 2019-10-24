@@ -113,7 +113,12 @@ int set_oval_version(char *feed, const char *version, update_node **upd_list, up
         }
         upd->dist_ref = DIS_UBUNTU;
     } else  if (!strcmp(feed, vu_dist_tag[DIS_DEBIAN])) {
-        if (!strcmp(version, "9") || !strcmp(version, vu_dist_tag[DIS_STRETCH])) {
+        if (!strcmp(version, "10") || !strcmp(version, vu_dist_tag[DIS_BUSTER])) {
+            os_index = CVE_BUSTER;
+            os_strdup(vu_dist_tag[DIS_BUSTER], upd->version);
+            upd->dist_tag = vu_dist_tag[DIS_BUSTER];
+            upd->dist_ext = vu_dist_ext[DIS_BUSTER];
+        } else if (!strcmp(version, "9") || !strcmp(version, vu_dist_tag[DIS_STRETCH])) {
             os_index = CVE_STRETCH;
             os_strdup(vu_dist_tag[DIS_STRETCH], upd->version);
             upd->dist_tag = vu_dist_tag[DIS_STRETCH];

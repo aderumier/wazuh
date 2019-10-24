@@ -113,6 +113,7 @@ typedef enum distribution{
     // Debian versions
     DIS_JESSIE,
     DIS_STRETCH,
+    DIS_BUSTER,
     DIS_WHEEZY,
     // RedHat versions
     DIS_RHEL5,
@@ -172,6 +173,7 @@ typedef enum {
     CVE_BIONIC,
     CVE_JESSIE,
     CVE_STRETCH,
+    CVE_BUSTER,
     CVE_WHEEZY,
     CVE_REDHAT,
     CVE_WXP,

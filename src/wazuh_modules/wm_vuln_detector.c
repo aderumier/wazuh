@@ -100,6 +100,7 @@ const char *vu_dist_tag[] = {
     "BIONIC",
     "JESSIE",
     "STRETCH",
+    "BUSTER",
     "WHEEZY",
     "RHEL5",
     "RHEL6",
@@ -132,6 +133,7 @@ const char *vu_dist_ext[] = {
     "Ubuntu Bionic",
     "Debian Jessie",
     "Debian Stretch",
+    "Debian Buster",
     "Debian Wheezy",
     "Red Hat Enterprise Linux 5",
     "Red Hat Enterprise Linux 6",
@@ -2140,6 +2142,7 @@ int wm_vuldet_updatedb(update_node **updates) {
         wm_vuldet_run_update(updates[CVE_TRUSTY],   vu_dist_tag[DIS_TRUSTY],   vu_dist_ext[DIS_TRUSTY], &success_upd)   ||
         wm_vuldet_run_update(updates[CVE_PRECISE],   vu_dist_tag[DIS_PRECISE],  vu_dist_ext[DIS_PRECISE], &success_upd) ||
         // Debian
+        wm_vuldet_run_update(updates[CVE_BUSTER],  vu_dist_tag[DIS_BUSTER],  vu_dist_ext[DIS_BUSTER], &success_upd)  ||
         wm_vuldet_run_update(updates[CVE_STRETCH],  vu_dist_tag[DIS_STRETCH],  vu_dist_ext[DIS_STRETCH], &success_upd)  ||
         wm_vuldet_run_update(updates[CVE_JESSIE],   vu_dist_tag[DIS_JESSIE],   vu_dist_ext[DIS_JESSIE], &success_upd)   ||
         wm_vuldet_run_update(updates[CVE_WHEEZY],   vu_dist_tag[DIS_WHEEZY],   vu_dist_ext[DIS_WHEEZY], &success_upd)   ||
@@ -2728,6 +2731,8 @@ int wm_vuldet_set_agents_info(agent_software **agents_software, update_node **up
                 agent_os = vu_dist_tag[DIS_JESSIE];
             } else if (strstr(os_version, "9")) {
                 agent_os = vu_dist_tag[DIS_STRETCH];
+            } else if (strstr(os_version, "10")) {
+                agent_os = vu_dist_tag[DIS_BUSTER];
             } else {
                 dist_error = DIS_DEBIAN;
             }
