@@ -166,6 +166,65 @@ const char *vu_severities[] = {
     "-"
 };
 
+
+static int
+order(int c)
+{
+        if (isdigit(c))
+                return 0;
+        else if (isalpha(c))
+                return c;
+        else if (c == '~')
+                return -1;
+        else if (c)
+                return c + 256;
+        else
+                return 0;
+}
+
+static int
+verrevcmp(const char *a, const char *b)
+{
+        if (a == NULL)
+                a = "";
+        if (b == NULL)
+                b = "";
+
+        while (*a || *b) {
+                int first_diff = 0;
+
+                while ((*a && !isdigit(*a)) || (*b && !isdigit(*b))) {
+                        int ac = order(*a);
+                        int bc = order(*b);
+
+                        if (ac != bc)
+                                return ac - bc;
+
+                        a++;
+                        b++;
+                }
+                while (*a == '0')
+                        a++;
+                while (*b == '0')
+                        b++;
+                while (isdigit(*a) && isdigit(*b)) {
+                        if (!first_diff)
+                                first_diff = *a - *b;
+                        a++;
+                        b++;
+                }
+
+                if (isdigit(*a))
+                        return 1;
+                if (isdigit(*b))
+                        return -1;
+                if (first_diff)
+                        return first_diff;
+        }
+
+        return 0;
+}
+
 const char *wm_vuldet_set_oval(const char *os_name, const char *os_version, update_node **updates, distribution *agent_dist) {
     const char *retval = NULL;
     int i;
@@ -421,6 +480,14 @@ int wm_vuldet_compare(char *version_it, char *cversion_it) {
     } else if (!version_it && cversion_it) {
         return VU_LESS;
     } else if (!version_it && !cversion_it) {
+        return VU_EQUAL;
+    }
+
+    if (verrevcmp(version_it, cversion_it) > 0) {
+	return VU_HIGHER;
+    } else if (verrevcmp(version_it, cversion_it) < 0) {
+        return VU_LESS;
+    } else {
         return VU_EQUAL;
     }
 
